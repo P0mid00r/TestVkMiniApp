@@ -9,8 +9,6 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
     <script src="TemplateData/UnityProgress.js"></script>
     <script src="Build/UnityLoader.js"></script>
 
@@ -28,14 +26,18 @@
           })
           .then((data) => {
             if (data.post_id) {
-             console.log ("ok"); // Запись размещена
+             // console.log ("ok"); // Запись размещена
+              unityInstance.SendMessage('ConnectJs', 'ResponseOk');
             }
           })
           .catch((error) => {
             console.log(error); // Ошибка
+            unityInstance.SendMessage('ConnectJs', 'ResponseError');
           });
 
       }
+
+      var unityInstance = UnityLoader.instantiate("unityContainer", "Build/Lesson_build.json", {onProgress: UnityProgress}); // запуск unity на странице
 
       jQuery(document).ready(function($) // страница прогружена
       {
@@ -43,7 +45,6 @@
       });
 
     </script>
-
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
@@ -97,9 +98,9 @@
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/vkTestBuild.loader.js";
       var config = {
-        dataUrl: buildUrl + "/vkTestBuild.data.br",
-        frameworkUrl: buildUrl + "/vkTestBuild.framework.js.br",
-        codeUrl: buildUrl + "/vkTestBuild.wasm.br",
+        dataUrl: buildUrl + "/vkTestBuild.data.unityweb",
+        frameworkUrl: buildUrl + "/vkTestBuild.framework.js.unityweb",
+        codeUrl: buildUrl + "/vkTestBuild.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "TestVkMiniApp",
